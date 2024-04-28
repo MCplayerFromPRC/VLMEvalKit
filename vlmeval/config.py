@@ -9,6 +9,18 @@ Yi_ROOT = None
 OmniLMM_ROOT = None
 LLAVA_V1_7B_MODEL_PTH = 'Please set your local path to LLaVA-7B-v1.1 here, the model weight is obtained by merging LLaVA delta weight based on vicuna-7b-v1.1 in https://github.com/haotian-liu/LLaVA/blob/main/docs/MODEL_ZOO.md with vicuna-7b-v1.1. '
 
+model_config = {
+    "name": "INT2_P256_S2_B4096_4VPT_R490_GRAD_LD90_reconvert_llm",
+    "ckpt_dir": "local:/mnt/inspurfs/share_data/huangrui/ckpts/INT2_P256_S2_B4096_4VPT_R490_GRAD_LD90_INTERNTRAIN_BASELINE",
+    "tokenizer_path": "/mnt/petrelfs/share_data/yanhang/tokenizes/v13.model",
+    "load_type": "internevo",
+    "model_type": "INTERNLM_XCOMPOSER2",
+    "del_model_prefix": True,
+    "param_dtype": "torch.float32",
+    "specific_model_config": None,
+    "module_path":"/mnt/inspurfs/share_data/changcheng/code/InternTrain"
+}
+
 ungrouped = {
     'TransCore_M': partial(TransCoreM, root=TransCore_ROOT),
     'PandaGPT_13B': partial(PandaGPT, name='PandaGPT_13B', root=PandaGPT_ROOT),
@@ -82,9 +94,12 @@ yivl_series = {
 xcomposer_series = {
     'XComposer': partial(XComposer, model_path='internlm/internlm-xcomposer-vl-7b'),
     'sharecaptioner': partial(ShareCaptioner, model_path='Lin-Chen/ShareCaptioner'),
-    'XComposer2': partial(XComposer2, model_path='internlm/internlm-xcomposer2-vl-7b'),
+    # 'XComposer2': partial(XComposer2, model_path='internlm/internlm-xcomposer2-vl-7b'),
+    'XComposer2': partial(XComposer2, model_path='/mnt/inspurfs/share_data/changcheng/ckpt/internlm-xcomposer2-vl-7b/'),
     'XComposer2_1.8b': partial(XComposer2, model_path='internlm/internlm-xcomposer2-vl-1_8b'),
     'XComposer2_4KHD': partial(XComposer2_4KHD, model_path='internlm/internlm-xcomposer2-4khd-7b'),
+    "XComposer2_internlm": partial(XComposer2, model_path='/mnt/inspurfs/share_data/changcheng/ckpt/INT2_P256_S2_B4096_4VPT_R490_GRAD_LD90_HF_BASELINE/'),
+    'Internlm_train': partial(Internlm_train, model_config=model_config),
 }
 
 minigpt4_series = {

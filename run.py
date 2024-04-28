@@ -11,7 +11,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--data', type=str, nargs='+', required=True)
     parser.add_argument('--model', type=str, nargs='+', required=True)
-    parser.add_argument('--work-dir', type=str, default='.', help='select the output directory')
+    parser.add_argument('--work-dir', type=str, default='./output/2024_4_26/', help='select the output directory')
     parser.add_argument('--mode', type=str, default='all', choices=['all', 'infer'])
     parser.add_argument('--nproc', type=int, default=4, help='Parallel API calling')
     parser.add_argument('--retry', type=int, default=None, help='retry numbers for API VLMs')

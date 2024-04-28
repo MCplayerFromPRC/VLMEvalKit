@@ -68,6 +68,8 @@ instance/
 # Scrapy stuff:
 .scrapy
 
+.gitignore
+
 # Sphinx documentation
 docs/_build/
 
@@ -154,5 +156,7 @@ cython_debug/
 
 # Images
 images/
+
+output/
 
 scripts/*ttf
