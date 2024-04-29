@@ -8,6 +8,7 @@ from .base import BaseModel
 from torchvision import transforms
 from torchvision.transforms.functional import InterpolationMode
 from sentencepiece import SentencePieceProcessor
+
 pattern = re.compile(r'[A-Z]')
 
 meta_instruction = """
@@ -36,11 +37,8 @@ def encode_image(image_paths):
             ]
         )
         img = Image.open(path).convert("RGB")
-        image = transform(img)
-        sample_images = []
-        sample_images.append(image)
-        images.append(torch.stack(sample_images, dim=0).cuda())
-    return images
+        images.append(transform(img))
+    return torch.stack(images, dim=0).cuda()
 
 
 class LLMTokenizer(object):
@@ -208,10 +206,10 @@ class Internlm_train(BaseModel):
 
         self.tokenizer = LLMTokenizer(tokenizer)
 
-    def no_beam_search_generate(self, prompt, image_path, need_bos=True, padding=True, beams=3, max_token=500, dataset=None):
+    def no_beam_search_generate(self, prompts, image_path, need_bos=True, padding=True, beams=3, max_token=500, dataset=None):
         images = encode_image(image_path)
-        prompt = "[UNUSED_TOKEN_146]user\n" + prompt + "[UNUSED_TOKEN_145]\n[UNUSED_TOKEN_146]assistant\n"
-        prompts = [prompt]
+        prompts = [prompts]
+        images = [images]
         generation_kwargs = {
             'max_gen_len': 100,
             'eos_token_id': None,
@@ -378,10 +376,6 @@ class Internlm_train(BaseModel):
         return message
     
     def message_to_promptimg(self, message):
-        model_name = self.__class__.__name__
-        warnings.warn(
-            f'Model {model_name} does not support interleaved input. '
-            'Will use the first image and aggregated texts as prompt. ')
         num_images = len([x for x in message if x['type'] == 'image'])
         if num_images == 0:
             prompt = '\n'.join([x['value'] for x in message if x['type'] == 'text'])
@@ -393,5 +387,3 @@ class Internlm_train(BaseModel):
             prompt = '\n'.join([x['value'] if x['type'] == 'text' else '<image>' for x in message])
             image = [x['value'] for x in message if x['type'] == 'image']
         return prompt, image
-
-

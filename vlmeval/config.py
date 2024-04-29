@@ -11,7 +11,8 @@ LLAVA_V1_7B_MODEL_PTH = 'Please set your local path to LLaVA-7B-v1.1 here, the m
 
 model_config = {
     "name": "INT2_P256_S2_B4096_4VPT_R490_GRAD_LD90_reconvert_llm",
-    "ckpt_dir": "local:/mnt/inspurfs/share_data/huangrui/ckpts/INT2_P256_S2_B4096_4VPT_R490_GRAD_LD90_INTERNTRAIN_BASELINE",
+    # "ckpt_dir": "local:/mnt/inspurfs/share_data/huangrui/ckpts/INT2_P256_S2_B4096_4VPT_R490_GRAD_LD90_INTERNTRAIN_BASELINE",
+    "ckpt_dir": "local:/mnt/inspurfs/share_data/huangrui/ckpts/INT2_P256_S2_B4096_4VPT_R490_GRAD_LD90_MAX",
     "tokenizer_path": "/mnt/petrelfs/share_data/yanhang/tokenizes/v13.model",
     "load_type": "internevo",
     "model_type": "INTERNLM_XCOMPOSER2",
